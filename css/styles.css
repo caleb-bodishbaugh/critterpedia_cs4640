@@ -1,0 +1,47 @@
+.navbar {
+    background: rgb(237, 237, 237);
+}
+
+#banner {
+    margin-top: 5%;
+}
+
+a.customLink {
+    text-decoration: none;
+    color: black;
+}
+
+a.customLink:hover {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+a.customLink:hover p.link{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+a.customLink:active p.link{
+    font-style: italic;
+}
+
+a.nav-link:hover {
+    font-weight: bold;
+}
+
+p.link {
+    text-decoration: none;
+    color: black;
+}
+
+.img_focused, a.customLink:hover .img_unfocused{
+    display:none
+ }
+ .img_unfocused, a.customLink:hover .img_focused{
+    display:block
+ }
+ 
+
+
