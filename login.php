@@ -40,7 +40,7 @@
         </label>
       </div>
       <button class="btn btn-lg btn-info btn-block" type="submit">Sign in</button>
-      <a href="signup.html">Don't have an account? Sign up here!</a>
+      <a href="signup.php">Don't have an account? Sign up here!</a>
       <p class="mt-5 mb-3 text-muted">&copy; Caleb Bodishbaugh 2021</p>
     </form>
 

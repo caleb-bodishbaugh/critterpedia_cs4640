@@ -24,34 +24,7 @@
 </head>
 
 <body style="background-color: #F3CF69;"">
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand text-dark font-weight-bold" href="index.html">
-      <img src="img/app_icon.png" height="40px" width="40px" class="d-inline-block align-middle img-fluid" alt="Critterpedia Logo"/>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">  
-      <ul class="navbar-nav">
-        <li class="nav-item active navbar-text">
-          <a class="nav-link" href="index.html" id="homeNavLink">Home</a>
-        </li>
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="fish.html" id="fishNavLink">Fish</a>
-        </li>
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="bugs.html" id="bugNavLink">Bugs</a>
-        </li>
-      </ul>
-
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="login.html">Login</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <?php include('header.php'); ?>
 
   <div class="container-fluid col-md-6">
     <h1 class="">Create an Account!</h1>
