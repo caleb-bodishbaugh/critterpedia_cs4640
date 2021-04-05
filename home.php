@@ -40,13 +40,13 @@
         <p class="text-justify h1">What are you looking for?</p>
         <div class="row justify-content-center">
           <div class="col-sm text-justify" id="bugLink">
-            <a href="bugs.html" class="customLink">
+            <a href="bugs.php" class="customLink">
               <img class="img_unfocused" src="img/NH-Net_icon.png" id="netIcon"/><img class="img_focused" src="img/NH-Net_icon_focus.png"/>
               <p class="h2 link">Bugs!</p>
             </a>
           </div>
           <div class="col-sm text-justify" id="fishLink">
-            <a href="fish.html" class="customLink">
+            <a href="fish.php" class="customLink">
               <img class="img_unfocused" src="img/NH-Fishing_rod_icon.png" id="rodIcon"/><img class="img_focused" src="img/NH-Fishing_rod_icon_focus.png"/>
               <p class="h2 link">Fish!</p>
             </a>
