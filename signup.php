@@ -1,3 +1,44 @@
+<?php require('connect-db.php');?>
+<?php include('header.php'); ?>
+<?php
+$error_msg = "";
+if (isset($_POST['username']) and isset($_POST['email']) and isset($_POST['pwd'])) {
+  try {
+    global $db;
+
+    $username_form = $_POST['username'];
+    $email_form = $_POST['email'];
+    $password_form = password_hash($_POST['pwd'], PASSWORD_DEFAULT);
+
+    $query = "SELECT * FROM accounts WHERE email = :email OR username = :usr";
+    
+    $statement_exists = $db->prepare($query);
+    $statement_exists->bindValue(':usr', $username_form);
+    $statement_exists->bindValue(':email', $email_form);
+	  $statement_exists->execute();
+
+    if ($statement_exists->rowCount() > 0) {
+      $error_msg = "User already exists! </br>";
+      $statement_exists->closeCursor();
+    }
+
+    else {
+      $query = "INSERT INTO accounts (username, email, password) VALUES (:usr, :email, :pwd)";
+      $statement_new = $db->prepare($query);
+      $statement_new->bindValue(':usr', $username_form);
+      $statement_new->bindValue(':email', $email_form);
+      $statement_new->bindValue(':pwd', $password_form);
+	    $statement_new->execute();
+      $statement_new->closeCursor();
+      header('Location: home.php');
+    }
+  } catch (Exception $e) {
+    $error_message = $e->getMessage();
+    echo "<p>Error message: $error_message </p>";
+  }
+}
+?>
+
 <!doctype html>
 
 <html lang="en">
@@ -24,53 +65,26 @@
 </head>
 
 <body style="background-color: #F3CF69;"">
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand text-dark font-weight-bold" href="index.html">
-      <img src="img/app_icon.png" height="40px" width="40px" class="d-inline-block align-middle img-fluid" alt="Critterpedia Logo"/>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">  
-      <ul class="navbar-nav">
-        <li class="nav-item active navbar-text">
-          <a class="nav-link" href="index.html" id="homeNavLink">Home</a>
-        </li>
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="fish.html" id="fishNavLink">Fish</a>
-        </li>
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="bugs.html" id="bugNavLink">Bugs</a>
-        </li>
-      </ul>
+  
 
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="login.html">Login</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <div class="container-fluid col-md-6">
+  <div class="container-fluid col-md-6" style="margin-top: 2%;">
     <h1 class="">Create an Account!</h1>
 
-    <form name="newUserInfo" method="post" onsubmit="return checkRegistration()">
+    <form name="newUserInfo" method="post" onsubmit="return checkRegistration()" action="<?php $_SERVER['PHP_SELF'] ?>">
         <div class="form-group">
             <label for="newUsername">Username</label>
-            <input type="text" class="form-control" id="newUsername" aria-describedby="usernameHelp" placeholder="Username" autofocus required>
+            <input type="text" class="form-control" id="newUsername" aria-describedby="usernameHelp" placeholder="Username" autofocus required name="username">
             <small id="usernameHelp" class="form-text text-muted">Your username must be 4-16 characters long and must not contain spaces, special characters or emoji.</small>
             <small id="msg_usr" class="form-text text-danger"></small>
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required name="email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
             <label for="inputNewPassword">Password</label>
-            <input type="password" class="form-control" id="inputNewPassword" placeholder="Password" required>
+            <input type="password" class="form-control" id="inputNewPassword" placeholder="Password" required name="pwd">
             <small id="passwordHelpBlock" class="form-text text-muted">
                 Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
             </small>
@@ -82,6 +96,7 @@
             <small id="msg_pwd_confirm" class="form-text text-danger"></small>
         </div>
         <button type="submit" class="btn btn-info">Create</button>
+        <small id="msg_pwd" class="form-text text-danger"><?php echo $error_msg;?></small>
     </form>
   </div>
 

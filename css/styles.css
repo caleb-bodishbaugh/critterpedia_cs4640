@@ -3,8 +3,21 @@
 }
 
 #banner {
-    margin-top: 5%;
+    margin-top: 2%;
 }
+
+#infoBox {
+    background: #8A8EDA;
+    border-color: #595C8D;
+}
+
+.infoBoxEntry {
+    background-color: #2F528F;
+    color: white;
+    padding: 2%;
+    margin-top: 2%;
+}
+
 
 a.customLink {
     text-decoration: none;

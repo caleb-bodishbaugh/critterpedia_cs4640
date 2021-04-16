@@ -1,3 +1,4 @@
+<?php include('header.php'); ?>
 <!doctype html>
 
 <html lang="en">
@@ -24,41 +25,49 @@
 </head>
 
 <body style="background-color: #F3CF69;">
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand text-dark font-weight-bold" href="index.html">
-      <img src="img/app_icon.png" height="40px" width="40px" class="d-inline-block align-middle img-fluid" alt="Critterpedia Logo"/>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">  
-      <ul class="navbar-nav">
-        <li class="nav-item active navbar-text">
-          <a class="nav-link" href="index.html" id="homeNavLink">Home</a>
-        </li>
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="fish.html" id="fishNavLink">Fish</a>
-        </li>
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="bugs.html" id="bugNavLink">Bugs</a>
-        </li>
-      </ul>
+  
 
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="login.html">Login</a>
-        </li>
-      </ul>
+  <div class="container-fluid ml-auto">
+  <h1 class="display-3 text-center" id="banner">Welcome to Critterpedia!</h1>
+  <p class="lead text-center">
+    A fan-made website to find all your favorite critters from Animal Crossing: New Horizons!
+  </p>
+  </div>
+
+
+  <div class="container" id="logoLinksContainer" style="margin-top: 2.5%;">
+    <div class="row justify-content-center">
+      <img src="img/ac_logo_upscaled.png" class="col-sm"/>
+
+      <div class="col-sm" id="critterLinks">
+        <p class="text-justify h1">What are you looking for?</p>
+        <div class="row justify-content-center">
+          <div class="col text-justify ml-auto" id="bugLink">
+            <a href="bugs.php" class="customLink">
+              <img class="img_unfocused" src="img/NH-Net_icon.png" id="netIcon"/><img class="img_focused" src="img/NH-Net_icon_focus.png"/>
+              <p class="h2 link">Bugs!</p>
+            </a>
+          </div>
+          <div class="col text-justify ml-auto" id="fishLink">
+            <a href="fish.php" class="customLink">
+              <img class="img_unfocused" src="img/NH-Fishing_rod_icon.png" id="rodIcon"/><img class="img_focused" src="img/NH-Fishing_rod_icon_focus.png"/>
+              <p class="h2 link">Fish!</p>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-
-  </nav>
+  </div>
 
   <footer>
     <p class="text-muted text-center">
       &copy Caleb Bodishbaugh 2021
     </p>
   </footer>
+  <script type="text/javascript">
+    
+    
+  </script>
   <script src="js/scripts.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>

@@ -1,3 +1,44 @@
+<?php include('header.php'); ?>
+<?php
+$nookipedia_api_key = "631bc88e-43c9-4e23-8368-ae7eca156c8d";
+$one_fish = FALSE; 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if (isset($_POST['name']) && $_POST['name'] != "") {
+    $one_fish = TRUE;
+    $fish_name = $_POST['name'];
+    $fish_name = str_replace(" ", "_", $fish_name);
+    $fish_name = strtolower($fish_name);
+    $fish_name = ucfirst($fish_name);
+    try {
+      $response = file_get_contents("https://api.nookipedia.com/nh/fish/". $fish_name . "?api_key=" . $nookipedia_api_key);
+      $response = json_decode($response);
+    } catch (Exception $e) {
+      $error_message = $e->getMessage();
+      echo "<p>Error message: $error_message </p>";
+    }
+  }
+
+  else {
+    $date = $_POST['date'];
+    $time = $_POST['time'];
+    $location = $_POST['location'];
+
+    $month = substr($date, 5, 2);
+
+    if (substr($month, 0 , 1) == "0") {
+      $month = substr($month, 1, 1);
+    }
+    try {
+      $response = file_get_contents("https://api.nookipedia.com/nh/fish?month=" . $month . "&api_key=" . $nookipedia_api_key);
+      $response = json_decode($response);
+    } catch (Exception $e) {
+      $error_message = $e->getMessage();
+      echo "<p>Error message: $error_message </p>";
+    }
+  }
+} ?>
+
+
 <!doctype html>
 
 <html lang="en">
@@ -24,60 +65,32 @@
 </head>
 
 <body style="background-color: #F3CF69;" onload="setDefaultDateandTime()">
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand text-dark font-weight-bold" href="index.html">
-      <img src="img/app_icon.png" height="40px" width="40px" class="d-inline-block align-middle img-fluid" alt="Critterpedia Logo"/>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">  
-      <ul class="navbar-nav">
-        <li class="nav-item active navbar-text">
-          <a class="nav-link" href="index.html" id="homeNavLink">Home</a>
-        </li>
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="fish.html" id="fishNavLink">Fish</a>
-        </li>
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="bugs.html" id="bugNavLink">Bugs</a>
-        </li>
-      </ul>
-
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item navbar-text">
-          <a class="nav-link" href="login.html">Login</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
 
   <div class="container-fluid col-md-11">
-    <h1 class="">Fish Database</h1>
+    <h1 style="margin-top: 2%" class="">Fish Database</h1>
 
-    <form method="POST" name="searchFish">
+    <form method="POST" name="searchFish" action="<?php $_SERVER['PHP_SELF'] ?>">
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputDate">Date</label>
-          <input type="date" class="form-control" id="inputDate" placeholder="">
+          <input type="date" class="form-control" id="inputDate" placeholder="" name="date">
         </div>
         <div class="form-group col-md-6">
           <label for="inputTime">Time</label>
-          <input type="time" class="form-control" id="inputTime" placeholder="" step="60">
+          <input type="time" class="form-control" id="inputTime" placeholder="" step="60" name="time">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputLocation">Hemisphere</label>
-          <select class="form-control" id="inputLocation">
+          <select class="form-control" id="inputLocation" name="location">
             <option>Northern</option>
             <option>Southern</option>
           </select>
         </div>
         <div class="form-group col-md-6">
           <label for="inputName">Name</label>
-          <input type="Name" class="form-control" id="inputName" placeholder="Name">
+          <input type="Name" class="form-control" id="inputName" placeholder="Name" name="name">
           <small id="msg_name" class="form-text text-danger"></small>
         </div>
       </div>
@@ -92,28 +105,124 @@
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Icon</th>
-          <th scope="col">Habitat</th>
+          <th scope="col">Location</th>
           <th scope="col">Shadow</th>
           <th scope="col">Bell Value</th>
         </tr>
       </thead>
       <tbody>
+      <?php 
+      if ($one_fish) {
+      ?>
         <tr>
-          <th scope="row">5</th>
+          <th scope="row"><?php echo $response->number; ?></th>
           <td>
-            <a href="static-fish.html" class="customLink">
-            Carp
+            <a href="fish-detail.php?name=<?php echo str_replace(" ", "_", $response->name); ?>" class="customLink">
+            <?php echo $response->name; ?>
             </a>
           </td>
           <td class="w-25">
-            <a href="static-fish.html" class="customLink">
-            <img class="img-thumbnail" src="img/Carp_NH_Icon.png" height="40px" width="40px"/>
+            <a href="fish-detail.php?name=<?php echo str_replace(" ", "_", $response->name); ?>" class="customLink">
+            <img class="img-thumbnail" src="<?php echo $response->image_url; ?>" height="40px" width="40px"/>
             </a>
           </td>
-          <td>River</td>
-          <td>Large</td>
-          <td>300</td>
+          <td><?php echo $response->location; ?></td>
+          <td><?php echo $response->shadow_size; ?></td>
+          <td><?php echo $response->sell_nook; ?></td>
         </tr>
+      <?php 
+      }
+      else {
+
+        if (isset($_POST['location']) and isset($_POST['time'])) {
+          $time = intval($_POST['time']);
+          $time = $time * 100;
+          if ($_POST['location'] == "Northern") {
+            foreach ($response->north as $critter) {
+              $can_catch = FALSE;
+              $time_available = $critter->north->times_by_month->$month;
+              if ($time_available == "4 PM – 9 AM") {
+                if ($time >= 1600 or $time <= 900) {
+                  $can_catch = TRUE;
+                }
+              }
+
+              elseif ($time_available == "4 AM – 9 PM") {
+                if ($time >= 400 or $time <= 2100) {
+                  $can_catch = TRUE;
+                }
+              }
+
+              elseif ($time_available == "All day") {
+                $can_catch = TRUE;
+              }
+
+              if ($can_catch) {
+              ?>
+            <tr>
+              <th scope="row"><?php echo $critter->number; ?></th>
+              <td>
+                <a href="fish-detail.php?name=<?php echo str_replace(" ", "_", $critter->name); ?>" class="customLink">
+                <?php echo $critter->name; ?>
+                </a>
+              </td>
+              <td class="w-25">
+                <a href="fish-detail.php?name=<?php echo str_replace(" ", "_", $critter->name); ?>" class="customLink">
+                <img class="img-thumbnail" src="<?php echo $critter->image_url; ?>" height="40px" width="40px"/>
+                </a>
+              </td>
+              <td><?php echo $critter->location; ?></td>
+              <td><?php echo $critter->shadow_size; ?></td>
+              <td><?php echo $critter->sell_nook; ?></td>
+            </tr>
+      <?php }
+      }
+          }
+
+          else {
+            foreach ($response->south as $critter) { 
+              $can_catch = FALSE;
+              $time_available = $critter->south->times_by_month->$month;
+              if ($time_available == "4 PM – 9 AM") {
+                if ($time >= 1600 or $time <= 900) {
+                  $can_catch = TRUE;
+                }
+              }
+
+              elseif ($time_available == "4 AM – 9 PM") {
+                if ($time >= 400 or $time <= 2100) {
+                  $can_catch = TRUE;
+                }
+              }
+
+              elseif ($time_available == "All day") {
+                $can_catch = TRUE;
+              }
+
+              if ($can_catch) {
+              ?>
+              <tr>
+                <th scope="row"><?php echo $critter->number; ?></th>
+                <td>
+                  <a href="fish-detail.php?name=<?php echo str_replace(" ", "_", $critter->name); ?>" class="customLink">
+                  <?php echo $critter->name; ?>
+                  </a>
+                </td>
+                <td class="w-25">
+                  <a href="fish-detail.php?name=<?php echo str_replace(" ", "_", $critter->name); ?>" class="customLink">
+                  <img class="img-thumbnail" src="<?php echo $critter->image_url; ?>" height="40px" width="40px"/>
+                  </a>
+                </td>
+                <td><?php echo $critter->location; ?></td>
+                <td><?php echo $critter->shadow_size; ?></td>
+                <td><?php echo $critter->sell_nook; ?></td>
+              </tr>
+          <?php
+              }
+            }
+          }
+      }
+     } ?>
       </tbody>
     </table>
   </div>
