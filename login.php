@@ -1,3 +1,53 @@
+<?php
+require('connect-db.php');
+
+session_start();
+$error_msg = "";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  
+  
+  $email_to_check = $_POST['email-login'];
+  $pwd_to_check = $_POST['pwd-login'];
+
+  try {
+    global $db;
+
+    $query = 'SELECT * FROM accounts WHERE email = :email';
+    
+    $statement = $db->prepare($query);
+    $statement->bindValue(':email', $email_to_check);
+	  $statement->execute();
+
+
+    if ($statement->rowCount() > 0) {
+      $results = $statement->fetch();
+      if (password_verify($pwd_to_check, $results['password'])) {
+        $_SESSION['user'] = $results['username'];
+        $statement->closeCursor();
+        echo "<script>window.location.href='home.php';</script>";
+        exit;
+      }
+
+      else {
+        $statement->closeCursor();
+        $error_msg = "Incorrect password! <br/>";
+      }
+    }
+  
+    else { 
+      $error_msg = "Email or password maybe incorrect! </br>";
+      $statement->closeCursor();
+    }
+  } catch (Exception $e) {
+    $error_message = $e->getMessage();
+    echo "<p>Error message: $error_message </p>";
+  }
+  
+} ?>
+
+
+
+
 <!doctype html>
 <html lang="en">
   <!-- using Bootstrap Login template from https://getbootstrap.com/docs/4.0/examples/sign-in/-->
@@ -26,17 +76,17 @@
   </head>
 
   <body class="text-center">
-    <form class="form-signin" method="post" onsubmit="return validateLogin()">
-      <a href="index.html"><img class="mb-4" src="img/app_icon.png" alt="" width="72" height="72"></a> 
+    <form class="form-signin" method="post" onsubmit="" action="<?php $_SERVER['PHP_SELF'] ?>">
+      <a href="home.php"><img class="mb-4" src="img/app_icon.png" alt="" width="72" height="72"></a> 
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus name="email-login">
       <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-      <small id="msg_pwd" class="form-text text-danger"></small>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="pwd-login">
+      <small id="msg_pwd" class="form-text text-danger"><?php echo $error_msg;?></small>
       <div class="checkbox mb-3">
         <label>
-          <input type="checkbox" value="show-password"> Show Password
+          <input type="checkbox" value="show-password" onclick="showPassword()"> Show Password
         </label>
       </div>
       <button class="btn btn-lg btn-info btn-block" type="submit">Sign in</button>

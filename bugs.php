@@ -1,3 +1,4 @@
+<?php include('header.php'); ?>
 <!doctype html>
 
 <html lang="en">
@@ -24,10 +25,9 @@
 </head>
 
 <body style="background-color: #F3CF69;" onload="setDefaultDateandTime()">
-  <?php include('header.php'); ?>
 
   <div class="container-fluid col-md-11">
-    <h1 class="">Bug Database</h1>
+    <h1 style="margin-top: 2%" class="">Bug Database</h1>
 
     <form>
       <div class="form-row">

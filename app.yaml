@@ -24,6 +24,12 @@ handlers:
   - url: /js
     static_dir: js
 
+  - url: /home.php
+    script: auto
+
+  - url: /login.php
+    script: auto
+
   - url: /.*
     secure: optional
     redirect_http_response_code: 301

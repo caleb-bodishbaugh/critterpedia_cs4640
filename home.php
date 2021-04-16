@@ -1,3 +1,4 @@
+<?php include('header.php'); ?>
 <!doctype html>
 
 <html lang="en">
@@ -24,12 +25,14 @@
 </head>
 
 <body style="background-color: #F3CF69;">
-  <?php include('header.php'); ?>
+  
 
-  <h1 class="display-1 text-center" id="banner">Welcome to Critterpedia!</h1>
+  <div class="container-fluid ml-auto">
+  <h1 class="display-3 text-center" id="banner">Welcome to Critterpedia!</h1>
   <p class="lead text-center">
     A fan-made website to find all your favorite critters from Animal Crossing: New Horizons!
   </p>
+  </div>
 
 
   <div class="container" id="logoLinksContainer" style="margin-top: 2.5%;">
@@ -39,13 +42,13 @@
       <div class="col-sm" id="critterLinks">
         <p class="text-justify h1">What are you looking for?</p>
         <div class="row justify-content-center">
-          <div class="col-sm text-justify" id="bugLink">
+          <div class="col text-justify ml-auto" id="bugLink">
             <a href="bugs.php" class="customLink">
               <img class="img_unfocused" src="img/NH-Net_icon.png" id="netIcon"/><img class="img_focused" src="img/NH-Net_icon_focus.png"/>
               <p class="h2 link">Bugs!</p>
             </a>
           </div>
-          <div class="col-sm text-justify" id="fishLink">
+          <div class="col text-justify ml-auto" id="fishLink">
             <a href="fish.php" class="customLink">
               <img class="img_unfocused" src="img/NH-Fishing_rod_icon.png" id="rodIcon"/><img class="img_focused" src="img/NH-Fishing_rod_icon_focus.png"/>
               <p class="h2 link">Fish!</p>

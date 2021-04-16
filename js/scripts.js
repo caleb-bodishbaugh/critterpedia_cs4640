@@ -25,14 +25,14 @@ function checkPatternUsername(str) {
    // test if str matches the username pattern in the signup help text (4-16 characters, letters numbers only)
    var pattern = new RegExp("[0-9a-z]{4,16}");
    var match_test = pattern.test(str.toLowerCase());
-   return match_test;
+   return match_test && str.length < 17;
 }
 
 function checkPatternPassword(str) { 
    // test if str matches the password pattern in the signup help text (8-20 characters, letters numbers only)	
    var pattern = new RegExp("[0-9a-zA-Z]{8,20}");
    var match_test = pattern.test(str);
-   return match_test;
+   return match_test && str.length < 21;
 }
 
 function checkRegistration() {   
@@ -123,5 +123,14 @@ function validateLogin() {
     else {
         msg.innerHTML = "";
         return true;
+    }
+}
+
+function showPassword() {
+    var x = document.getElementById("inputPassword");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
     }
 }

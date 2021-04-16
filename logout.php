@@ -1,3 +1,4 @@
+<?php include('header.php'); ?>
 <!doctype html>
 
 <html lang="en">
@@ -24,13 +25,40 @@
 </head>
 
 <body style="background-color: #F3CF69;">
-  <?php include('header.php'); ?>
 
+
+  <div class="container">
+    <h1 class="display-1 text-center">Critterpedia</h1>
+    <p class="lead text-center">Successfully logged out<p>
+  </div>
+
+<?php
+if (count($_SESSION) > 0) {
+  foreach ($_SESSION as $k => $v) {
+    unset($_SESSION[$k]);       // remove key-value pair from a session object (server)
+  }
+  session_destroy();
+
+  setcookie("PHPSESSID", "", time()-3600, "/");
+
+  // redirect after 5 second delay
+  echo "<script>window.location.href='home.php';</script>";
+  exit;
+}
+else {
+  echo "<script>window.location.href='login.php';</script>";
+  exit;
+}
+?>
   <footer>
     <p class="text-muted text-center">
       &copy Caleb Bodishbaugh 2021
     </p>
   </footer>
+  <script type="text/javascript">
+    
+    
+  </script>
   <script src="js/scripts.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>

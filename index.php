@@ -15,9 +15,21 @@ switch (@parse_url($_SERVER['REQUEST_URI'])['path']) {
   case '/login.php':
     require 'login.php';
     break;
+  case '/logout.php':
+    require 'logout.php';
+    break;
   case '/signup.php':
     require 'signup.php';
     break;  
+  case '/profile.php':
+    require 'profile.php';
+    break;
+  case '/fish-detail.php':
+    require 'fish-detail.php';
+    break;
+  case '/bug-detail.php':
+    require 'bug-detail.php';
+    break;
   default:
     http_response_code(404);
     exit('Not Found');
