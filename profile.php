@@ -97,7 +97,7 @@ $fish_names = Array('1' => 'Bitterling', '2' => 'Pale chub', '3' => 'Crucian Car
 
   <footer>
     <p class="text-muted text-center">
-      &copy Caleb Bodishbaugh 2021
+      &copy Caleb Bodishbaugh 2021 | <a href="https://angular-webpl-kbod.uk.r.appspot.com/">Contact Me</a>
     </p>
   </footer>
   <script src="js/scripts.js"></script>
